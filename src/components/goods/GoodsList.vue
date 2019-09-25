@@ -1,6 +1,34 @@
 <template>
   <div class="goods-list">
-    <div class="goods-item" v-for="(item, index) in goodslist" :key="index">
+    <!-- <router-link
+      :to="'/home/goodsinfo/'+ item.id"
+      class="goods-item"
+      v-for="(item, index) in goodslist"
+      :key="index"
+    >
+      <img :src="item.img_url" />
+      <h1 class="title">{{item.title}}</h1>
+      <div class="info">
+        <p class="price">
+          <span class="now">￥{{item.sell_price}}</span>
+          <span class="old">￥{{item.market_price}}</span>
+        </p>
+        <p class="sell">
+          <span>热卖中</span>
+          <span>剩{{item.stock_quantity}}件</span>
+        </p>
+      </div>
+    </router-link>-->
+
+    <!-- 在网页中，有两种跳转方式 -->
+    <!-- 1.方式1：使用 a 标签形式，叫做标签跳转 -->
+    <!-- 2.方式2：使用 window.location.href 的形式，叫做编程式导航 -->
+    <div
+      class="goods-item"
+      v-for="(item, index) in goodslist"
+      :key="index"
+      @click="goDetail(item.id)"
+    >
       <img :src="item.img_url" />
       <h1 class="title">{{item.title}}</h1>
       <div class="info">
@@ -14,9 +42,9 @@
         </p>
       </div>
     </div>
+
     <mt-button type="danger" size="large" @click="getMore">加载更多</mt-button>
   </div>
-
 </template>
 
 <script>
@@ -42,9 +70,23 @@ export default {
           }
         });
     },
-    getMore(){
-        this.pageindex++;
-        this.getGoodsList();
+    getMore() {
+      this.pageindex++;
+      this.getGoodsList();
+    },
+    goDetail(id) {
+      // 使用 JS 的方式进行路由导航
+
+      // 注意：区分 this.$route 和 this.$router 这两个对象
+      // 其中：this.$route 是路由参数对象，所有的路由中的参数，parmams,query 都属于他
+      // 其中：this.$router 是一个路由导航对象，用它可以方便地使用 JS 代码，实现路由的前进、后退、跳转到新的URL地址
+
+      // 1.最简单的
+      // this.$router.push("/home/goodsinfo/" + id);
+      // 2.传递对象
+      // this.$router.push({ path: "/home/goodsinfo/" + id });
+      // 3.传递命名路由
+      this.$router.push({ name: "goodsinfo", params: { id } });
     }
   }
 };
@@ -68,7 +110,7 @@ export default {
     justify-content: space-between;
     min-height: 293px;
     img {
-        min-height: 171px;
+      min-height: 171px;
       width: 100%;
     }
     .title {
