@@ -68,7 +68,7 @@ export default {
       lubotu: [],
       goodsinfo: {},
       ballflag: false,
-      selectedCount:1
+      selectedCount: 1
     };
   },
   created() {
@@ -102,7 +102,17 @@ export default {
       this.$router.push({ name: "goodscomment", params: { id } });
     },
     addToShopCar() {
+      // 添加到购物车
       this.ballflag = !this.ballflag;
+      // 拼接出要传递到 state 的数据
+      var goodsinfo = {
+        id: this.id,
+        count: this.selectedCount,
+        price: this.goodsinfo.sell_price,
+        selected: true
+      };
+      // 调用 mutations 中的方法来讲商品加入购物车
+      this.$store.commit("addToCar", goodsinfo);
     },
     beforeEnter(el) {
       el.style.transform = "translate(0,0)";
@@ -134,9 +144,9 @@ export default {
     afterEnter(el) {
       this.ballflag = !this.ballflag;
     },
-    getSelectedCount(count){
-        this.selectedCount = count;
-        console.log("嘤嘤嘤" + this.selectedCount);
+    getSelectedCount(count) {
+      this.selectedCount = count;
+      console.log("嘤嘤嘤" + this.selectedCount);
     }
   },
   components: {
